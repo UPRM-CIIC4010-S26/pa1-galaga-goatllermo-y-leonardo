@@ -1,5 +1,5 @@
 #include "Program.hpp"
-
+#include "Hitbox.hpp"
 Program::Program() {
     Background::sideWalls = std::pair<HitBox, HitBox>{ 
         HitBox(0, 0, 10, GetScreenHeight()), 
@@ -26,7 +26,7 @@ Program::Program() {
         });
     }
 }
-
+//4.2 Bullet 2, update()
 void Program::Update() {
     for (Animation& a : Animation::animations) a.update();
     for (int i = 0; i < Animation::animations.size(); i++) {
@@ -55,10 +55,15 @@ void Program::Update() {
             }
         }
 
-        for (Projectile& p : Projectile::projectiles) { 
-            p.update(); 
+        for (Projectile& p : Projectile::projectiles) {
+            if(p.ID == 1 && HitBox::Collision(p.getHitBox(),player->hitBox)){
+                PlayerReset();
+            }
+            p.update();
+            }
+            
 
-        }
+        
 
         if (lives <= 0 && pauseFrames <= 0) gameOver = true;
         Projectile::CleanProjectiles();
