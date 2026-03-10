@@ -7,7 +7,7 @@ Program::Program() {
     };
 
     Enemy::enemies.push_back(std::pair<std::pair<float, float>, Enemy*> {
-            std::pair<float, float>{350, 150}, 
+            std::pair<float, float>{350, 150},
             new SpEnemy(350, 150)
         });
 
@@ -73,6 +73,9 @@ void Program::Update() {
 
 void Program::Draw() {
     background.Draw();
+
+    DrawText(TextFormat("Score: %i", score), 420, 10, 40, MAGENTA);
+
     if (pauseFrames <= 0 && !gameOver) player->draw();
     for (Animation& a : Animation::animations) a.draw();
 
@@ -157,6 +160,7 @@ void Program::KeyInputs() {
     if (!paused && !startup && IsKeyPressed('O')) gameOver = !gameOver;
     if (!gameOver && !paused && IsKeyPressed('I')) startup = !startup;
     if (IsKeyPressed('H')) HitBox::drawHitbox = !HitBox::drawHitbox;
+    if (IsKeyPressed('K')) score += 500;
     
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
         gameOver = false;
@@ -192,6 +196,7 @@ void Program::Reset() {
     count = 0;
     delay = 0;
     lives = 3;
+    score = 0;
 
     ResetEnemyPosition();
 }

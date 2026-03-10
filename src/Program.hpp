@@ -37,6 +37,7 @@ class Program {
         void PlayerReset();
         void Reset();
         void ResetEnemyPosition();
-          
+        int score = 0;
+        
         ~Program() {}
 };
