@@ -4,7 +4,6 @@
 #include "ImageManager.hpp"
 #include "Animation.hpp"
 #include <iostream>
-
 class Enemy {
     protected:
         float angle = 90;
@@ -13,8 +12,10 @@ class Enemy {
         bool spawning = false;
         bool frame = false;
         int frameCooldown = 30;
+        int scoreIncrement=1;
         
     public:
+        
         int health = 1;
         std::pair<float, float> position;
         HitBox hitBox;
@@ -34,7 +35,7 @@ class Enemy {
         virtual void draw() = 0;
         virtual void update(std::pair<float, float> pos, HitBox target) = 0;
         virtual void attack(HitBox target) = 0;
-
+        int getScoreIncrement(){return this->scoreIncrement;}
         void frameChange() {
             frameCooldown--;
 
@@ -44,7 +45,7 @@ class Enemy {
              }
         }
 
-        static void ManageEnemies(HitBox target) {
+        static void ManageEnemies(HitBox target, int& score) {
             for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) {
                 p.first.first += (p.first.first == 0) ? 0 : direction;
                 if (p.second) {
@@ -56,8 +57,9 @@ class Enemy {
                             p2.del = true;
                         }
                     }
-
+                    //Phase 2: Score functionality.
                     if (p.second->health <= 0) {
+                        score +=p.second->scoreIncrement;
                         Animation::animations.push_back(
                             Animation(p.second->position.first, p.second->position.second, 155, 0, 33, 33, 30, 30, 4, ImageManager::SpriteSheet)
                         );
