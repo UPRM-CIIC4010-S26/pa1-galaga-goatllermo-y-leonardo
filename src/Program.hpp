@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <string>
 #include "raylib-cpp/raylib-cpp.hpp"
@@ -9,6 +8,7 @@
 #include "SpEnemy.hpp"
 #include "StEnemy.hpp"
 #include "DyEnemy.hpp"
+
 class Program {
     private:
         Background background = Background();
@@ -37,7 +37,9 @@ class Program {
         void PlayerReset();
         void Reset();
         void ResetEnemyPosition();
-        int score = 0;
+        int score  = 0;
+        int scoreTally = 0; //Variable used to check if lives should be given to the player.
+        int previousScore = 0;
         
         ~Program() {}
 };
