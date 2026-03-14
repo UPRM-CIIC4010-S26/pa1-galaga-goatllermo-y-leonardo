@@ -33,12 +33,15 @@ void Program::Update() {
         if (Animation::animations[i].done) Animation::animations.erase(Animation::animations.begin() + i);
     }
     pauseFrames = std::max(pauseFrames - 1, 0);
-    
+        
+
     if (!startup && !paused && !gameOver && pauseFrames <= 0) {
         Enemy::ManageEnemies(player->hitBox,score);
         StdEnemy::attackReset();
         ManageEnemyRespawns();
         player->update();
+        UpdateMusicStream(SoundManager::music);
+        
     //Phase 2: Live increment
     if(previousScore!=score){
         if(lives<5){ 
@@ -212,7 +215,8 @@ void Program::Reset() {
     score = 0;
     scoreTally = 0;
     previousScore = 0;
-
+    StopMusicStream(SoundManager::music);
+    PlayMusicStream(SoundManager::music);
     ResetEnemyPosition();
 }
 
